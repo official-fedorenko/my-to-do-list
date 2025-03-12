@@ -77,3 +77,9 @@ body {
 .delete-btn:hover {
   background: #e60000;
 }
+
+/* Выполненная задача */
+.completed {
+  text-decoration: line-through;
+  background-color: green;
+}
