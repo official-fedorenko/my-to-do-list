@@ -33,4 +33,51 @@ addTaskButton.addEventListener("click", function () {
   taskList.appendChild(addLi)
   // очищает  значение в поле вода 
   taskInput.value = '';
-})
+});
+
+function saveTasks() {
+  const tasks = [];
+  document.querySelectorAll('.task').forEach((task) => {
+    tasks.push({
+      text: task.firstChild.textContent,
+      complated: task.classList.contains('complated')
+    });
+  });
+  localStorage.setItem('tasks', JSON.stringify(tasks))
+};
+
+function loadTask() {
+  const taskItem = JSON.parse(localStorage.getItem('tasks'))
+  
+  if (!savedTasks) {
+    return
+  }
+  
+  savedTasks.forEach(task => {
+    const taskItem = document.createElement('li')
+    taskItem.classList.add('task')
+    taskItem.textContent = task.text;
+    
+    if (task.complated) {
+      taskItem.classList.toggle('complated');
+    };
+    
+    taskItem.addEventListener('click', function () {
+      taskItem.classList.toggle('complared')
+      saveTasks();
+    } );
+    
+    const deletButton = document.createElement('button')
+    deletButton.classList.add('delete-btn')
+    deletButton.textContent = 'Удалить'
+    
+    
+    deletButton.addEventListener('click', function () {
+      taskList.removeChild(taskItem)
+      saveTasks();
+    })
+    
+    taskItem.appendChild(deletButton)
+    taskList.appendChild(taskItem)
+  } )
+}
